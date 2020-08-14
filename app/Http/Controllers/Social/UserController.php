@@ -6,7 +6,7 @@ use App\Http\Controllers\Controller;
 use App\User;
 use Illuminate\Http\Request;
 use JWTAuth;
-
+use Illuminate\Support\Facades\Hash;
 class UserController extends Controller {
 
     protected $auth;
@@ -65,24 +65,24 @@ class UserController extends Controller {
             ]);
 
             if($validate ) {
-                if(\Hash::check($user->password, $request->old_password)) {
-                    $user->password = bcrypt($request->password);
+                if(\Hash::check($request->old_password, $user->password)) {
+                    $user->password = Hash::make($request->password);
                     $user->save();
                     return response()->json([
                         'meta' => [
                             'message'=> "User password updated",
                         ],
                         "data" => [
-                            "user" => $user
+                            "user" => true
                         ]
                     ], 200);
-                } else {
-                    return response()->json([
+               } else {
+                 return response()->json([
                         'root' => [
                             'errors'=> "Please enter current correct password",
                         ]
                     ], 200);
-                }
+               }
 
             }
             else {

@@ -9,8 +9,5 @@ share pictures etc
 ## Technologies 
 - Backend framework [Laravel](https://laravel.com/docs).
 - Frontend framework [Vue Js](https://Vuejs.org).
-- Bootstrap [session](https://getbootstrap.com/).
+-  [Bootstrap](https://getbootstrap.com/).
 
-## License
-
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).

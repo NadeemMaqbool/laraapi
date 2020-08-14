@@ -21,12 +21,13 @@ class LoginController extends Controller {
         $request->merge([$field=>$login]);
 
         $credentials = $request->only($field, 'password');
+
         try {
 
             if(!$token = $this->auth->attempt($credentials)) {
                 return response()->json([
                     'errors' => [
-                        'root' => 'Wrong credentials. Please try again with correct one'
+                        'root' => 'Wrong credentials. Please try again with correct one',
                     ]
                 ], 401);
             }
