@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Social;
 
 use App\Http\Controllers\Controller;
 use App\User;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use JWTAuth;
 use Illuminate\Support\Facades\Hash;
@@ -104,6 +105,24 @@ class UserController extends Controller {
                 ]
             ]);
         }
+    }
+
+    public function verifyEmail($id,$token,$date) {
+        $resp='';
+        $created = date("Y-m-d H:i:s", $date);
+        @Todo Please check if diffrence is dates is less than 1 hour then activate else throw exception
+        $user = User::where('id', $id)
+                ->where('verify_token', $token)
+                ->where('created_at', $created)->first();
+        if($user) {
+            $user->email_verified = true;
+            $user->save();
+            $resp=true;
+            return View('front.success', ['resp'=> $resp]);
+        }
+
+        $resp=null;
+        return View('front.success', ['resp'=> $resp]);
     }
 
 }

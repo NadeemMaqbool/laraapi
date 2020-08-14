@@ -25,4 +25,5 @@ Route::prefix('user')->group( function() {
     Route::get('/logout','Social\UserController@logout');
     Route::put('/update/{id}','Social\UserController@update');
     Route::patch('/update/password/{id}','Social\UserController@updatePassword');
+
 });
