@@ -11,13 +11,24 @@
 <body>
 
     @if($resp)
-        <div class="alert alert-success">
-               <p> Your email has been verified. Please proceed with your profile setting</p>
-        </div>
+        <main role="main" class="container">
+
+                <div class="alert alert-success text-center">
+                    <h1 class="mt-5">Verified Successfully</h1>
+                    <p> Your email has been verified. Please proceed with your profile setting</p>
+                </div>
+        </main>
+
     @else
-        <div class="alert alert-danger">
-            <p> Oopps something went wrong. we cannot verify your account. Please try again</p>
-        </div>
+
+        <main role="main" class="container">
+
+            <div class="alert alert-danger text-center">
+                <h1 class="mt-5">Verified Failed</h1>
+                <p> Oopps something went wrong. we cannot verify your account. Please try again</p>
+            </div>
+        </main>
+
     @endif
 </body>
 </html>

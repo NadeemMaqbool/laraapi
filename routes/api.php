@@ -23,7 +23,14 @@ Route::prefix('user')->group( function() {
     Route::post('/login','Auth\LoginController@login');
     Route::get('/me','Social\UserController@user');
     Route::get('/logout','Social\UserController@logout');
-    Route::put('/update/{id}','Social\UserController@update');
-    Route::patch('/update/password/{id}','Social\UserController@updatePassword');
-
+    Route::put('/update','Social\UserController@update');
+    Route::patch('/update/password','Social\UserController@updatePassword');
+});
+/// Posts
+Route::prefix('post')->group( function() {
+    Route::get('/index', 'Social\PostController@index');
+    Route::post('/store', 'Social\PostController@store');
+    Route::get('/edit/{id}', 'Social\PostController@edit');
+    Route::post('/update/{id}', 'Social\PostController@update');
+    Route::delete('/delete/{id}', 'Social\PostController@destroy');
 });

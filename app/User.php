@@ -58,4 +58,11 @@ class User extends Authenticatable implements JWTSubject
         return [];
     }
 
+    /**
+     * Get the user posts for the page.
+     */
+    public function posts()
+    {
+        return $this->hasMany('App\Post');
+    }
 }

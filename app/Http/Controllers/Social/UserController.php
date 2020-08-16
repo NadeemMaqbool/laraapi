@@ -8,20 +8,17 @@ use Carbon\Carbon;
 use Illuminate\Http\Request;
 use JWTAuth;
 use Illuminate\Support\Facades\Hash;
+use App\Services\UserService;
+
 class UserController extends Controller {
 
     protected $auth;
-    public function __construct(JWTAuth $auth) {
+    protected $user;
+    public function __construct(JWTAuth $auth, UserService $user) {
         $this->auth = $auth;
+        $this->user = $user;
     }
 
-    public function user(Request  $request) {
-
-        $token = JWTAuth::getToken();
-        $user = JWTAuth::toUser($token);
-
-        return response()->json(['code' => 200, 'data' => ['user' => $user]]);
-    }
 
     public function logout() {
         $token = JWTAuth::getToken();
@@ -30,8 +27,8 @@ class UserController extends Controller {
         return response()->json(null,200);
     }
 
-    public function update(Request $request, $id) {
-        $user = User::find($id);
+    public function update(Request $request) {
+        $user = $this->user->loggedInUser();
         if($user) {
             if(!empty($request)) {
                 $user->name = $request->name;
@@ -58,8 +55,8 @@ class UserController extends Controller {
     }
 
 
-    public function updatePassword(Request $request, $id) {
-        $user = User::find($id);
+    public function updatePassword(Request $request) {
+        $user = $this->user->loggedInUser();
         if($user) {
             $validate = $request->validate([
                 'password' => 'required|min:5'
@@ -108,21 +105,27 @@ class UserController extends Controller {
     }
 
     public function verifyEmail($id,$token,$date) {
-        $resp='';
         $created = date("Y-m-d H:i:s", $date);
-        @Todo Please check if diffrence is dates is less than 1 hour then activate else throw exception
+
         $user = User::where('id', $id)
                 ->where('verify_token', $token)
                 ->where('created_at', $created)->first();
         if($user) {
             $user->email_verified = true;
             $user->save();
-            $resp=true;
-            return View('front.success', ['resp'=> $resp]);
+
+            return response()->json([
+                'data' => [
+                    'success' => true
+                ]
+            ]);
         }
 
-        $resp=null;
-        return View('front.success', ['resp'=> $resp]);
+        return response()->json([
+            'data' => [
+                'success' => false
+            ]
+        ]);
     }
 
 }
