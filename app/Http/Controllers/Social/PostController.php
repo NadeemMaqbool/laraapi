@@ -13,6 +13,8 @@ class PostController extends Controller
 {
     protected $user;
 
+    // TODO Implement overturn package
+
     public function __construct(UserService $user) {
         $this->user = $user;
     }
@@ -24,7 +26,7 @@ class PostController extends Controller
     public function index()
     {
         $user = $this->user->loggedInUser();
-        $posts = Post::where('user_id', $user->id)->get();
+        $posts = Post::where('user_id', $user->id)->orderBy('created_at')->get();
 
         return response()->json([
             "data" => [

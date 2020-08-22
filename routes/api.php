@@ -33,4 +33,14 @@ Route::prefix('post')->group( function() {
     Route::get('/edit/{id}', 'Social\PostController@edit');
     Route::post('/update/{id}', 'Social\PostController@update');
     Route::delete('/delete/{id}', 'Social\PostController@destroy');
+    Route::get('/like/{id}', 'Social\LikesController@toggleLikes');
+    Route::get('/likes/{id}', 'Social\LikesController@getLikes');
+
+});
+
+Route::prefix('follow')->group( function() {
+    Route::get('/followers/toggle/{id}', "Social\FollowController@toggleFollow");
+    Route::get('/follower/{id}', "Social\FollowController@followers");
+    Route::get('/follownig/eachother/{id}', "Social\FollowController@iSFollowingEachOther");
+
 });
